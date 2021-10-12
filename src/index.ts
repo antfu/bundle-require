@@ -8,7 +8,7 @@ export interface Options {
   filepath: string
 }
 
-export async function bundleRequire(options: Options) {
+export async function bundleRequire<T = any>(options: Options): Promise<T> {
   if (!JS_EXT_RE.test(options.filepath)) {
     throw new Error(`${options.filepath} is not a valid JS file`)
   }
@@ -56,5 +56,5 @@ export async function bundleRequire(options: Options) {
   })
   const mod = require(outfile)
   await fs.promises.unlink(outfile)
-  return mod
+  return mod as T
 }
